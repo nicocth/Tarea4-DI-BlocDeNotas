@@ -20,13 +20,13 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Nuevo" />
-                        <MenuItem mnemonicParsing="false" text="Ventana nueva" />
-                        <MenuItem fx:id="abrir" mnemonicParsing="false" onAction="#clic" text="Abrir..." />
-                        <MenuItem mnemonicParsing="false" text="Guardar" />
-                        <MenuItem mnemonicParsing="false" text="Guardar como..." />
+                        <MenuItem fx:id="nuevoMenuItem" mnemonicParsing="false" onAction="#resetVentana" text="Nuevo" />
+                        <MenuItem fx:id="ventanaNuevaMenuItem" mnemonicParsing="false" onAction="#abrirVentanaNueva" text="Ventana nueva" />
+                        <MenuItem fx:id="abrirMenuItem" mnemonicParsing="false" onAction="#abrirArchivo" text="Abrir..." />
+                        <MenuItem fx:id="guardarMenuItem" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
+                        <MenuItem fx:id="guardarComoMenuItem" mnemonicParsing="false" onAction="#guardarComo" text="Guardar como..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem mnemonicParsing="false" text="Salir" />
+                    <MenuItem fx:id="salirMenuItem" mnemonicParsing="false" onAction="#cerrarVentana" text="Salir" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edición">

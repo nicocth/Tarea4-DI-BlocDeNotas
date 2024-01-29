@@ -4,18 +4,22 @@
  */
 package nico.blocdenotas;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
+import modelo.ControlFicheros;
 
 /**
  * FXML Controller class
@@ -25,9 +29,19 @@ import javafx.stage.FileChooser;
 public class VistaPrincipalController implements Initializable {
 
     @FXML
-    private MenuItem abrir;
-    @FXML
     private TextArea areaTexto;
+    @FXML
+    private MenuItem abrirMenuItem;
+    @FXML
+    private MenuItem nuevoMenuItem;
+    @FXML
+    private MenuItem ventanaNuevaMenuItem;
+    @FXML
+    private MenuItem guardarMenuItem;
+    @FXML
+    private MenuItem guardarComoMenuItem;
+    @FXML
+    private MenuItem salirMenuItem;
 
     /**
      * Initializes the controller class.
@@ -38,10 +52,7 @@ public class VistaPrincipalController implements Initializable {
     }    
 
     @FXML
-    /**
-     * Metodo que abre un archivo usando FileChooser
-     */
-    private void clic(ActionEvent event) {
+    private void abrirArchivo(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Buscar archivo");
 
@@ -85,6 +96,63 @@ public class VistaPrincipalController implements Initializable {
                 }
             }
         }
+    }
+
+    @FXML
+    private void guardar(ActionEvent event) {
+        //Obtenemos el texto que queremos guardar
+        String texto = areaTexto.getText();
+
+        // Crea un FileChooser
+        FileChooser fileChooser = new FileChooser();
+
+        // Configura el título del diálogo
+        fileChooser.setTitle("Guardar como");
+
+        // Configura el filtro de extensión para archivos de texto
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de texto", "*.txt"));
+
+        // Muestra el diálogo de guardar y obtiene el archivo seleccionado
+        File file = fileChooser.showSaveDialog(null);
+
+        // Si el archivo no es nulo, guarda el texto en el archivo
+        if (file != null) {
+            BufferedWriter bw = null;
+            try {
+                // Crea un BufferedWriter
+                bw = new BufferedWriter(new FileWriter(file));
+                // Escribe el texto del TextArea en el archivo
+                bw.write(texto);
+                // Cierra el BufferedWriter
+                bw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    bw.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @FXML
+    private void resetVentana(ActionEvent event) {
+    }
+
+    @FXML
+    private void abrirVentanaNueva(ActionEvent event) {
+ 
+    }
+
+    @FXML
+    private void guardarComo(ActionEvent event) {
+        ControlFicheros.guardarArchivoComo(areaTexto.getText());
+    }
+
+    @FXML
+    private void cerrarVentana(ActionEvent event) {
     }
     
 }
