@@ -4,11 +4,6 @@
  */
 package nico.blocdenotas;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modelo.ControlFicheros;
 
@@ -72,11 +66,12 @@ public class VistaPrincipalController implements Initializable {
     @FXML
     private void abrirVentanaNueva(ActionEvent event) throws IOException {
                 
-        FXMLLoader loader = new FXMLLoader (getClass().getResource("\\main\\resources\\nico.blocdenotas\\vistaPrincipal.fxml"));
+        FXMLLoader loader = new FXMLLoader (getClass().getResource("vistaPrincipal.fxml"));
         Parent root = loader.load();
         
         Scene scene = new Scene(root);
         Stage stage = new Stage();
+        stage.setTitle("Bloc de notas");
         stage.setScene(scene);
         stage.show();
     }
@@ -88,6 +83,10 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void cerrarVentana(ActionEvent event) {
+        //Obtenemos el stage con ayuda de algun elemento
+        Stage stage = (Stage) this.areaTexto.getScene().getWindow();
+        //cerramos el stage
+        stage.close();
     }
     
 }
