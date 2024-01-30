@@ -6,6 +6,8 @@ package modelo;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -16,7 +18,58 @@ import javafx.stage.FileChooser;
  * @author nico_
  */
 public class ControlFicheros {
-    
+        
+    /**
+     * Metodo que permite abrir un fichero usando FileChooser y devuelve el texto que contiene
+     * @param event 
+     */
+    public static String obtenerArchivo() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Buscar archivo");
+        String texto = "";
+        // Agregar filtros para facilitar la busqueda
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt")
+        );
+
+        // Obtener la imagen seleccionada
+        File textoSelecionado = fileChooser.showOpenDialog(null);
+
+        // Mostar el texto
+        if (textoSelecionado != null) {
+            FileReader reader = null;
+            try {  
+                // usamos un FileReader para leer el File
+                reader = new FileReader(textoSelecionado); 
+                // StringBuilder que almacena el texto
+                StringBuilder sb = new StringBuilder(); 
+                int c; // el carácter leído
+                // se leen caracteres hasta llegar al final del archivo 
+                while ((c = reader.read()) != -1) { 
+                    // añadir el carácter al StringBuilder
+                    sb.append((char) c); 
+                }   
+                // cerrar el FileReader
+                reader.close(); 
+                // obtener el texto como una cadena
+                texto = sb.toString(); 
+                // mostramos ese texto en nuestro TextArea
+                return texto;
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    reader.close();                 
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return texto;
+    }
+
         /**
          * Metodo que permite guardar un archivo usando FileChooser
          * 
