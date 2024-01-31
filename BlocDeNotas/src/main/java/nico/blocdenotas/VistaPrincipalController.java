@@ -25,6 +25,7 @@ import modelo.ControlFicheros;
  */
 public class VistaPrincipalController implements Initializable {
 
+    private ControlFicheros cf;
     @FXML
     private TextArea areaTexto;
     @FXML
@@ -45,7 +46,7 @@ public class VistaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cf = new ControlFicheros();
     }    
 
     @FXML
@@ -55,7 +56,7 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        ControlFicheros.guardarArchivoComo(areaTexto.getText());
+        cf.guardarArchivoComo(areaTexto.getText());
     }
 
     @FXML
@@ -78,7 +79,7 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void guardarComo(ActionEvent event) {
-        ControlFicheros.guardarArchivoComo(areaTexto.getText());
+        cf.guardarArchivoComo(areaTexto.getText());
     }
 
     @FXML

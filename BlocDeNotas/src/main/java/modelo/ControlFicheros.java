@@ -18,6 +18,13 @@ import javafx.stage.FileChooser;
  * @author nico_
  */
 public class ControlFicheros {
+    
+    //Declaracion de variables
+    File fichero;
+    public ControlFicheros() {
+        //inicializamos variables
+        fichero = null;
+    }
         
     /**
      * Metodo que permite abrir un fichero usando FileChooser y devuelve el texto que contiene
@@ -70,12 +77,12 @@ public class ControlFicheros {
         return texto;
     }
 
-        /**
-         * Metodo que permite guardar un archivo usando FileChooser
-         * 
-         * @param event 
-         */
-        public static void guardarArchivoComo(String texto) {
+    /**
+     * Metodo que permite guardar un archivo usando FileChooser
+     * 
+     * @param texto
+     */
+    public void guardarArchivoComo(String texto) {
 
         // Crea un FileChooser
         FileChooser fileChooser = new FileChooser();
@@ -87,14 +94,33 @@ public class ControlFicheros {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de texto", "*.txt"));
 
         // Muestra el diálogo de guardar y obtiene el archivo seleccionado
-        File file = fileChooser.showSaveDialog(null);
+        fichero = fileChooser.showSaveDialog(null);
 
-        // Si el archivo no es nulo, guarda el texto en el archivo
-        if (file != null) {
+        //escribimos en el fichero seleccionado
+        escribirEnFichero(texto);
+    }
+        
+    /**
+     * Metodo que cuando se guarda por primera vez funciona exactamente igual que guardar como, 
+     * pero cuando guardamos mas de una vez no pregunta directorio y directamente guarda el archivo 
+     * @param texto 
+     */
+    public void guardarArchivo(String texto) {
+        //si no hemos guardado ninguna vez iremos a guardar como 
+        if (fichero == null){
+           guardarArchivoComo(texto); 
+        }else{
+            escribirEnFichero(texto);
+        } 
+    }
+
+    private void escribirEnFichero(String texto) {
+                // Si el archivo no es nulo, guarda el texto en el archivo
+        if (fichero != null) {
             BufferedWriter bw = null;
             try {
                 // Crea un BufferedWriter
-                bw = new BufferedWriter(new FileWriter(file));
+                bw = new BufferedWriter(new FileWriter(fichero));
                 // Escribe el texto del TextArea en el archivo
                 bw.write(texto);
                 // Cierra el BufferedWriter
@@ -110,4 +136,6 @@ public class ControlFicheros {
             }
         }
     }
+            
 }
+
