@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import modelo.ControlFicheros;
 
@@ -25,7 +26,7 @@ import modelo.ControlFicheros;
  */
 public class VistaPrincipalController implements Initializable {
 
-    private ControlFicheros cf;
+    
     @FXML
     private TextArea areaTexto;
     @FXML
@@ -40,13 +41,18 @@ public class VistaPrincipalController implements Initializable {
     private MenuItem guardarComoMenuItem;
     @FXML
     private MenuItem salirMenuItem;
+    
+    private ControlFicheros cf;
+    private boolean modificado;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //inicializamos el control de fichero para poder mantener el guardado y modificacion de ficheros
         cf = new ControlFicheros();
+        modificado = false;
     }    
 
     @FXML
@@ -56,12 +62,26 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        cf.guardarArchivoComo(areaTexto.getText());
+        cf.guardarArchivo(areaTexto.getText());
+        actualizarTitulo();
     }
 
     @FXML
     private void resetVentana(ActionEvent event) {
+        //borramos lo escrito en el area de escritura 
         areaTexto.setText("");
+        
+        //reseteamos el titulo
+        Stage stage = (Stage) this.areaTexto.getScene().getWindow();
+        //Obtenemos el titulo para modificarlo 
+        String titulo = stage.getTitle();
+        //cambiamos el titulo para marcar que el texto a sido modificado
+        stage.setTitle("Sin título: Bloc de notas");
+        
+        //inicializamos a null el atributo fichero y modificado
+        cf.setFichero(null);
+        modificado = false;
+        
     }
 
     @FXML
@@ -72,7 +92,7 @@ public class VistaPrincipalController implements Initializable {
         
         Scene scene = new Scene(root);
         Stage stage = new Stage();
-        stage.setTitle("Bloc de notas");
+        stage.setTitle("Sin título: Bloc de notas");
         stage.setScene(scene);
         stage.show();
     }
@@ -80,14 +100,43 @@ public class VistaPrincipalController implements Initializable {
     @FXML
     private void guardarComo(ActionEvent event) {
         cf.guardarArchivoComo(areaTexto.getText());
+        actualizarTitulo();
     }
 
     @FXML
     private void cerrarVentana(ActionEvent event) {
-        //Obtenemos el stage con ayuda de algun elemento
+        //obtenemos el stage para modificar 
         Stage stage = (Stage) this.areaTexto.getScene().getWindow();
         //cerramos el stage
         stage.close();
     }
+
+    @FXML
+    private void textoModificado(KeyEvent event) {
+        //Si no ha sido modificado ya cambiamos el titulo
+        if (modificado == false){
+            //obtenemos el stage para modificar 
+            Stage stage = (Stage) this.areaTexto.getScene().getWindow();
+            //Obtenemos el titulo para modificarlo 
+            String titulo = stage.getTitle();
+            //cambiamos el titulo para marcar que el texto a sido modificado
+            stage.setTitle("*" + titulo);
+            modificado = true;
+        }     
+    }
     
+    /**
+     * Metodo que actualiza el titulo de la ventana
+     */
+    private void actualizarTitulo(){
+                //modificamos titulo
+        if(cf.getFichero() != null){
+            modificado = false;
+            //obtenemos el stage para modificar 
+            Stage stage = (Stage) this.areaTexto.getScene().getWindow();
+
+            //cambiamos el titulo para marcar que el texto a sido modificado
+            stage.setTitle(cf.getFichero().getName() + ": Bloc de notas");
+        }
+    }
 }

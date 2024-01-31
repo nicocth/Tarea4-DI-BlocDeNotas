@@ -21,9 +21,27 @@ public class ControlFicheros {
     
     //Declaracion de variables
     File fichero;
+    /**
+     * Constructor para la clase ControlFicheros
+     */
     public ControlFicheros() {
         //inicializamos variables
         fichero = null;
+    }
+    /**
+     * Mutador para atributo fichero
+     * @param fichero 
+     */
+    public void setFichero(File fichero) {
+        this.fichero = fichero;
+    }
+
+    /**
+     * Accesor para atributo fichero
+     * @return 
+     */
+    public File getFichero() {
+        return fichero;
     }
         
     /**

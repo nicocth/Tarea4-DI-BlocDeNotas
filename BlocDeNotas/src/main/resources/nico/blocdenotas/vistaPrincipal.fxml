@@ -53,7 +53,7 @@
             </MenuBar>
          </top>
          <center>
-            <TextArea fx:id="areaTexto" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <TextArea fx:id="areaTexto" onKeyTyped="#textoModificado" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

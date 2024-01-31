@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("vistaPrincipal"));
-        stage.setTitle("Bloc de notas");
+        stage.setTitle("Sin título: Bloc de notas");
         stage.setScene(scene);
         stage.show();   
     }
