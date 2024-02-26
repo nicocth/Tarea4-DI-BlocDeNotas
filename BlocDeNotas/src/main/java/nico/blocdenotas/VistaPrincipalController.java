@@ -11,11 +11,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.ControlFicheros;
 
@@ -28,7 +32,7 @@ public class VistaPrincipalController implements Initializable {
 
     
     @FXML
-    private TextArea areaTexto;
+    public TextArea areaTexto;
     @FXML
     private MenuItem abrirMenuItem;
     @FXML
@@ -44,6 +48,14 @@ public class VistaPrincipalController implements Initializable {
     
     private ControlFicheros cf;
     private boolean modificado;
+    @FXML
+    private MenuItem buscarMenuItem;
+    @FXML
+    private MenuItem reemplazarMenuItem;
+    @FXML
+    private MenuItem mayusMenuItem;
+    @FXML
+    private MenuItem minusMenuItem;
 
     /**
      * Initializes the controller class.
@@ -93,6 +105,7 @@ public class VistaPrincipalController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setTitle("Sin título: Bloc de notas");
+        stage.getIcons().add(new Image("images/icontitle.jpg"));
         stage.setScene(scene);
         stage.show();
     }
@@ -138,5 +151,61 @@ public class VistaPrincipalController implements Initializable {
             //cambiamos el titulo para marcar que el texto a sido modificado
             stage.setTitle(cf.getFichero().getName() + ": Bloc de notas");
         }
+    }
+
+    @FXML
+    private void buscar(ActionEvent event) throws IOException {
+        //obtenemos el stage para modificar 
+        Stage primaryStage = (Stage) this.areaTexto.getScene().getWindow();
+        
+        //cargamos la nueva ventana
+        FXMLLoader loader = new FXMLLoader (getClass().getResource("vistaBuscar.fxml"));
+        Parent root = loader.load();
+        
+        //Obtenemos el controlador de la ventana hija
+        VistaBuscarController ventanaHijaController = loader.getController();        
+        // Pasar la referencia al controlador de la ventana padre
+        ventanaHijaController.setVentanaPadreController(this); 
+        
+        //creamos ventana modal con la nueva ventana haciendo referencia al stage principal
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Buscar");
+        stage.getIcons().add(new Image("images/iconbuscar.jpg"));
+        stage.initModality(Modality.NONE);
+        stage.initOwner(primaryStage);
+        stage.show();
+    }
+
+    @FXML
+    private void reemplazar(ActionEvent event) throws IOException {
+        //obtenemos el stage para modificar 
+        Stage primaryStage = (Stage) this.areaTexto.getScene().getWindow();
+        
+        //cargamos la nueva ventana
+        FXMLLoader loader = new FXMLLoader (getClass().getResource("vistaReemplazar.fxml"));
+        Parent root = loader.load();
+        
+        //Obtenemos el controlador de la ventana hija
+        VistaReemplazarController ventanaHijaController = loader.getController();
+        // Pasar la referencia al controlador de la ventana padre
+        ventanaHijaController.setVentanaPadreController(this); 
+        
+        //creamos ventana modal con la nueva ventana haciendo referencia al stage principal
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Buscar");
+        stage.getIcons().add(new Image("images/find_replace.png"));
+        stage.initModality(Modality.NONE);
+        stage.initOwner(primaryStage);
+        stage.show();
+    }
+
+    @FXML
+    private void convertiramayusculas(ActionEvent event) {
+    }
+
+    @FXML
+    private void convertiraminuscula(ActionEvent event) {
     }
 }

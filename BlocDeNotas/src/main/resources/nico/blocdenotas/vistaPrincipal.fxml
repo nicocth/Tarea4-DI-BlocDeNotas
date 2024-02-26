@@ -31,12 +31,14 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edición">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem fx:id="buscarMenuItem" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+                        <MenuItem fx:id="reemplazarMenuItem" mnemonicParsing="false" onAction="#reemplazar" text="Reemplazar" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Formato">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="mayusMenuItem" mnemonicParsing="false" onAction="#convertiramayusculas" text="Convertir a MAYÚSCULAS" />
+                        <MenuItem fx:id="minusMenuItem" mnemonicParsing="false" onAction="#convertiraminuscula" text="Convertir a minúscula" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Ver">

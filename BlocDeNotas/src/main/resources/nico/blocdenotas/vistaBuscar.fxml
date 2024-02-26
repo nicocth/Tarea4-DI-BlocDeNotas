@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="122.0" prefWidth="381.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="nico.blocdenotas.VistaBuscarController">
+    <stylesheets>
+        <URL value="@/styles/vistabuscar.css" />
+    </stylesheets>
+   <children>
+      <Text layoutX="25.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buscar:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="textoBuscar" layoutX="84.0" layoutY="34.0" prefHeight="25.0" prefWidth="265.0" />
+      <Button fx:id="btnBuscar" layoutX="165.0" layoutY="73.0" mnemonicParsing="false" onAction="#buscarCoincidencias" text="Buscar" />
+   </children>
+</AnchorPane>

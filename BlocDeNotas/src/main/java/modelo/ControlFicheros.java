@@ -29,7 +29,7 @@ public class ControlFicheros {
         fichero = null;
     }
     /**
-     * Mutador para atributo fichero
+     * Mutador para atributo
      * @param fichero 
      */
     public void setFichero(File fichero) {
