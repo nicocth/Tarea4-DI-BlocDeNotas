@@ -11,15 +11,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.ControlFicheros;
@@ -59,6 +62,16 @@ public class VistaPrincipalController implements Initializable {
     private MenuItem minusMenuItem;
     @FXML
     private CheckMenuItem barraEstadoMenuItem;
+    @FXML
+    private HBox statusBar;
+    @FXML
+    private Label posicionStatusBar;
+    @FXML
+    private Label CaracteresStatusBar;
+    @FXML
+    private Label codificacionStatusBar;
+    @FXML
+    private MenuItem acercaDe;
 
     /**
      * Initializes the controller class.
@@ -138,23 +151,15 @@ public class VistaPrincipalController implements Initializable {
             //cambiamos el titulo para marcar que el texto a sido modificado
             stage.setTitle("*" + titulo);
             modificado = true;
-        }     
+        }  
+        
+
+        
+        //obtenemos el numero de caracteres del textArea y lo actualizamos en la barra de estado.
+        int numeroCaracteres = areaTexto.getText().length();
+        CaracteresStatusBar.setText("Caracteres: " + numeroCaracteres);
     }
     
-    /**
-     * Metodo que actualiza el titulo de la ventana
-     */
-    private void actualizarTitulo(){
-                //modificamos titulo
-        if(cf.getFichero() != null){
-            modificado = false;
-            //obtenemos el stage para modificar 
-            Stage stage = (Stage) this.areaTexto.getScene().getWindow();
-
-            //cambiamos el titulo para marcar que el texto a sido modificado
-            stage.setTitle(cf.getFichero().getName() + ": Bloc de notas");
-        }
-    }
 
     @FXML
     private void buscar(ActionEvent event) throws IOException {
@@ -234,5 +239,102 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void mostrarOcultarBarraEstado(ActionEvent event) {
+        if(barraEstadoMenuItem.isSelected()){
+            statusBar.setVisible(false);
+        }else{
+            statusBar.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void actualizarPosicion(MouseEvent event) {
+
+        int lineNumber = getLineNumber(areaTexto);
+        int columnIndex = getColumnIndex(areaTexto);
+        //el metodo de contar lineas falla si no hay ningun caracter en la ultima linea añadida, con esto compensamos el fallo
+        if(columnIndex == 1){
+            lineNumber++;
+        }
+        posicionStatusBar.setText("Linea: " + lineNumber + ", Columna: " + columnIndex);
+    }
+ 
+    /**
+     * Metodo que actualiza el titulo de la ventana
+     */
+    private void actualizarTitulo(){
+                //modificamos titulo
+        if(cf.getFichero() != null){
+            modificado = false;
+            //obtenemos el stage para modificar 
+            Stage stage = (Stage) this.areaTexto.getScene().getWindow();
+
+            //cambiamos el titulo para marcar que el texto a sido modificado
+            stage.setTitle(cf.getFichero().getName() + ": Bloc de notas");
+        }
+    }
+
+    /**
+     * metodo que devuelve la linea en la que se encuentra el cursor actualmente dentro de un textArea
+     * @param textArea
+     * @return 
+     */
+    private static int getLineNumber(TextArea textArea) {
+        String text = textArea.getText();
+        int position = textArea.getCaretPosition();
+        String[] lineas = text.split("\n");
+        int totalLineas = lineas.length;
+        int contadorCaracteres = 0;
+        int lineaActual = 0;
+        
+        for (int i = 0; i < totalLineas; i++) {
+            contadorCaracteres += lineas[i].length();
+            lineaActual++;
+            if (position <= contadorCaracteres) {
+                break;
+            }
+        }
+        return lineaActual;
+    }
+
+    /**
+     * metodo que devuelve la columna en la que se encuentra el cursor actualmente dentro de un textArea
+     * @param textArea
+     * @return 
+     */
+    private static int getColumnIndex(TextArea textArea) {
+        int caretPosition = textArea.getCaretPosition();
+        String text = textArea.getText();
+        int lastNewlineIndex = text.lastIndexOf('\n', caretPosition);
+        return caretPosition - lastNewlineIndex;
+    }
+
+    @FXML
+    private void abrirAcercaDe(ActionEvent event) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Acerca del Bloc de notas");
+
+            //Establece el titulo de la alerta
+            alert.setHeaderText("Informacion del programa:");
+            //Establece el cuerpo de la alerta
+            alert.setContentText("Programa hecho por Nicolás Calderón Torres.\n"
+                    + "Perteneciente a la Tarea de la Unidad de Trabajo 2.\n"
+                    + "- Elaboración de interfaces mediante documentos xml.\n"
+                    + "Modulo: Desarrollo de Interfaces.");
+            alert.showAndWait();
+    }
+
+    @FXML
+    private void actualizarBarraEstado(KeyEvent event) {
+        //actualiza la barra de estado
+        int lineNumber = getLineNumber(areaTexto);
+        int columnIndex = getColumnIndex(areaTexto);
+        //el metodo de contar lineas falla si no hay ningun caracter en la ultima linea añadida, con esto compensamos el fallo
+        if(columnIndex == 1){
+            if(lineNumber!=1){
+               lineNumber++; 
+            } 
+        }
+        posicionStatusBar.setText("Linea: " + lineNumber + ", Columna: " + columnIndex);
     }
 }
+

@@ -2,13 +2,16 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nico.blocdenotas.VistaPrincipalController">
     <stylesheets>
@@ -44,20 +47,32 @@
                 </Menu>
                   <Menu mnemonicParsing="false" text="Ver">
                     <items>
-                        <CheckMenuItem fx:id="barraEstadoMenuItem" mnemonicParsing="false" onAction="#mostrarOcultarBarraEstado" text="Barra de estado" />
+                        <CheckMenuItem fx:id="barraEstadoMenuItem" mnemonicParsing="false" onAction="#mostrarOcultarBarraEstado" text="Ocultar barra de estado" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem fx:id="acercaDe" mnemonicParsing="false" onAction="#abrirAcercaDe" text="Acerca del Bloc de notas" />
                     </items>
                   </Menu>
               </menus>
             </MenuBar>
          </top>
          <center>
-            <TextArea fx:id="areaTexto" onKeyTyped="#textoModificado" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <TextArea fx:id="areaTexto" onKeyReleased="#actualizarBarraEstado" onKeyTyped="#textoModificado" onMouseClicked="#actualizarPosicion" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
+         <bottom>
+            <HBox fx:id="statusBar" alignment="CENTER_RIGHT" prefHeight="15.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label fx:id="posicionStatusBar" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="131.0" text="Linea: 1, Columna: 1" />
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label fx:id="CaracteresStatusBar" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="98.0" text="Caracteres: 0" />
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label fx:id="codificacionStatusBar" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="64.0" text="UTF-8" />
+               </children>
+            </HBox>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>
