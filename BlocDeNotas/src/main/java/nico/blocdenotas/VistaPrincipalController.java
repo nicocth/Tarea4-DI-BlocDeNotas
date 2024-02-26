@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -56,6 +57,8 @@ public class VistaPrincipalController implements Initializable {
     private MenuItem mayusMenuItem;
     @FXML
     private MenuItem minusMenuItem;
+    @FXML
+    private CheckMenuItem barraEstadoMenuItem;
 
     /**
      * Initializes the controller class.
@@ -203,9 +206,33 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void convertiramayusculas(ActionEvent event) {
+        //obtenemos el texto seleccionado
+        String textoSeleccionado = areaTexto.getSelectedText();
+        //Lo pasamos a mayusculas
+        String textoMayus = textoSeleccionado.toUpperCase();
+        //obtenemos todo el texto del textArea
+        String texto = areaTexto.getText();
+        //reemplazamos el cacho seleccionado
+        String textoMod = texto.replaceAll(textoSeleccionado, textoMayus);
+        //insertamos el texto modificado
+        areaTexto.setText(textoMod);
     }
 
     @FXML
     private void convertiraminuscula(ActionEvent event) {
+        //obtenemos el texto seleccionado
+        String textoSeleccionado = areaTexto.getSelectedText();
+        //Lo pasamos a mayusculas
+        String textoMinus = textoSeleccionado.toLowerCase();
+        //obtenemos todo el texto del textArea
+        String texto = areaTexto.getText();
+        //reemplazamos el cacho seleccionado
+        String textoMod = texto.replaceAll(textoSeleccionado, textoMinus);
+        //insertamos el texto modificado
+        areaTexto.setText(textoMod);
+    }
+
+    @FXML
+    private void mostrarOcultarBarraEstado(ActionEvent event) {
     }
 }
