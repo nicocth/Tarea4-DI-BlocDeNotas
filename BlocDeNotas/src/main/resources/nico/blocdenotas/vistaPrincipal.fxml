@@ -69,7 +69,7 @@
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Label fx:id="CaracteresStatusBar" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="98.0" text="Caracteres: 0" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label fx:id="codificacionStatusBar" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="64.0" text="UTF-8" />
+                  <Label fx:id="codificacionStatusBar" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="64.0" text="UTF8" />
                </children>
             </HBox>
          </bottom>

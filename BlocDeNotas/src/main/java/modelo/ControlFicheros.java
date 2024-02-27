@@ -60,12 +60,14 @@ public class ControlFicheros {
         // Obtener la imagen seleccionada
         fichero = fileChooser.showOpenDialog(null);
 
-        // Mostar el texto
+        // Mostrar el texto
         if (fichero != null) {
             FileReader reader = null;
             try {  
                 // usamos un FileReader para leer el File
                 reader = new FileReader(fichero); 
+                System.out.println(reader.getEncoding());
+                
                 // StringBuilder que almacena el texto
                 StringBuilder sb = new StringBuilder(); 
                 int c; // el carácter leído

@@ -4,6 +4,8 @@
  */
 package nico.blocdenotas;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -90,6 +92,15 @@ public class VistaPrincipalController implements Initializable {
     private void abrirArchivo(ActionEvent event) {
         areaTexto.setText(cf.obtenerArchivo());
         actualizarTitulo();
+        
+        // usamos un FileReader para obtener la codificacion del fichero actual
+        FileReader reader; 
+        try {
+            reader = new FileReader(cf.getFichero());
+            //Actualizamos la barra de estado segun la codificacion del archivo
+            codificacionStatusBar.setText(reader.getEncoding());        
+        } catch (FileNotFoundException ex) {
+        }
     }
 
     @FXML
@@ -180,6 +191,9 @@ public class VistaPrincipalController implements Initializable {
         //obtenemos el numero de caracteres del textArea y lo actualizamos en la barra de estado.
         int numeroCaracteres = areaTexto.getText().length();
         CaracteresStatusBar.setText("Caracteres: " + numeroCaracteres);
+
+
+        
     }
     
 
