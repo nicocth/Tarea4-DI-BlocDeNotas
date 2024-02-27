@@ -48,7 +48,7 @@ public class ControlFicheros {
      * Metodo que permite abrir un fichero usando FileChooser y devuelve el texto que contiene
      * @param event 
      */
-    public static String obtenerArchivo() {
+    public String obtenerArchivo() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Buscar archivo");
         String texto = "";
@@ -58,14 +58,14 @@ public class ControlFicheros {
         );
 
         // Obtener la imagen seleccionada
-        File textoSelecionado = fileChooser.showOpenDialog(null);
+        fichero = fileChooser.showOpenDialog(null);
 
         // Mostar el texto
-        if (textoSelecionado != null) {
+        if (fichero != null) {
             FileReader reader = null;
             try {  
                 // usamos un FileReader para leer el File
-                reader = new FileReader(textoSelecionado); 
+                reader = new FileReader(fichero); 
                 // StringBuilder que almacena el texto
                 StringBuilder sb = new StringBuilder(); 
                 int c; // el carácter leído

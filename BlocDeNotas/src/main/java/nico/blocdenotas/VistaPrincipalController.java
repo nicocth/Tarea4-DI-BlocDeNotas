@@ -19,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -29,11 +28,11 @@ import modelo.ControlFicheros;
 
 /**
  * FXML Controller class
- *
+ * Clase controladora de la vista principal de nuestro bloc de notas, aqui estaran la mayoria de los metodos que usa nuestro programa, tanto de gestion de ficheros como de 
+ * funcionalidades para la edicion del texto.
  * @author nico_
  */
 public class VistaPrincipalController implements Initializable {
-
     
     @FXML
     public TextArea areaTexto;
@@ -49,9 +48,6 @@ public class VistaPrincipalController implements Initializable {
     private MenuItem guardarComoMenuItem;
     @FXML
     private MenuItem salirMenuItem;
-    
-    private ControlFicheros cf;
-    private boolean modificado;
     @FXML
     private MenuItem buscarMenuItem;
     @FXML
@@ -72,9 +68,13 @@ public class VistaPrincipalController implements Initializable {
     private Label codificacionStatusBar;
     @FXML
     private MenuItem acercaDe;
+        
+    private ControlFicheros cf;
+    
+    private boolean modificado;
 
     /**
-     * Initializes the controller class.
+     * Inicializa la clase controladora.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,26 +84,35 @@ public class VistaPrincipalController implements Initializable {
     }    
 
     @FXML
+    /**
+     * Método que usa la clase ControlFicheros para buscar un archivo, añade el texto de este al textArea de nuestra ventana y actualiza el titulo.
+     */
     private void abrirArchivo(ActionEvent event) {
-        areaTexto.setText(ControlFicheros.obtenerArchivo());
+        areaTexto.setText(cf.obtenerArchivo());
+        actualizarTitulo();
     }
 
     @FXML
+    /**
+     * Método que usa la clase ControlFicheros para guardar nuestro archivo, si ya se habia guardado antes se guardara directamente sin tener que elegir fichero de destino
+     * Aparte actualiza el titulo para eliminar el asterisco que marca que el texto ha sido modificado.
+     */
     private void guardar(ActionEvent event) {
         cf.guardarArchivo(areaTexto.getText());
         actualizarTitulo();
     }
 
     @FXML
+    /**
+     * Método que reinicia la ventana inicializando los elementos de la vista y la clase controlficheros
+     */
     private void resetVentana(ActionEvent event) {
         //borramos lo escrito en el area de escritura 
         areaTexto.setText("");
         
-        //reseteamos el titulo
+        //obtenemos stage
         Stage stage = (Stage) this.areaTexto.getScene().getWindow();
-        //Obtenemos el titulo para modificarlo 
-        String titulo = stage.getTitle();
-        //cambiamos el titulo para marcar que el texto a sido modificado
+        //cambiamos el titulo para marcar que el texto ha sido modificado
         stage.setTitle("Sin título: Bloc de notas");
         
         //inicializamos a null el atributo fichero y modificado
@@ -113,6 +122,9 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Método que inicia una ventana nueva totalmente independiente de la actual.
+     */
     private void abrirVentanaNueva(ActionEvent event) throws IOException {
                 
         FXMLLoader loader = new FXMLLoader (getClass().getResource("vistaPrincipal.fxml"));
@@ -127,12 +139,18 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Metodo que guarda nuestro texto en un archivo preguntando siempre el fichero destino
+     */
     private void guardarComo(ActionEvent event) {
         cf.guardarArchivoComo(areaTexto.getText());
         actualizarTitulo();
     }
 
     @FXML
+    /**
+     * Método que cierra el programa
+     */
     private void cerrarVentana(ActionEvent event) {
         //obtenemos el stage para modificar 
         Stage stage = (Stage) this.areaTexto.getScene().getWindow();
@@ -141,6 +159,10 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Método que añade el asterisco al titulo cuando este es modificado
+     *Aparte actualiza el numero de caracteres en la barra de estado
+     */
     private void textoModificado(KeyEvent event) {
         //Si no ha sido modificado ya cambiamos el titulo
         if (modificado == false){
@@ -162,6 +184,9 @@ public class VistaPrincipalController implements Initializable {
     
 
     @FXML
+    /**
+     * Método que abre otra ventana que te permite buscar un texto dentro del textArea de la ventana principal
+     */
     private void buscar(ActionEvent event) throws IOException {
         //obtenemos el stage para modificar 
         Stage primaryStage = (Stage) this.areaTexto.getScene().getWindow();
@@ -186,6 +211,9 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Método que abre otra ventana que te permite buscar un texto dentro del textArea de la ventana principal y reemplazarlo.
+     */
     private void reemplazar(ActionEvent event) throws IOException {
         //obtenemos el stage para modificar 
         Stage primaryStage = (Stage) this.areaTexto.getScene().getWindow();
@@ -210,6 +238,9 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Método que convierte a mayusculas el texto seleccionado en el textArea
+     */
     private void convertiramayusculas(ActionEvent event) {
         //obtenemos el texto seleccionado
         String textoSeleccionado = areaTexto.getSelectedText();
@@ -224,6 +255,9 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Método que convierte a minusculas el texto seleccionado en el textArea
+     */
     private void convertiraminuscula(ActionEvent event) {
         //obtenemos el texto seleccionado
         String textoSeleccionado = areaTexto.getSelectedText();
@@ -238,6 +272,9 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Método que oculta/muestra la barra de estado
+     */
     private void mostrarOcultarBarraEstado(ActionEvent event) {
         if(barraEstadoMenuItem.isSelected()){
             statusBar.setVisible(false);
@@ -247,6 +284,9 @@ public class VistaPrincipalController implements Initializable {
     }
 
     @FXML
+    /**
+     * Metodo que actualiza la linea y columna de la barra de estado al hacer clic con el raton
+     */
     private void actualizarPosicion(MouseEvent event) {
 
         int lineNumber = getLineNumber(areaTexto);
@@ -257,8 +297,43 @@ public class VistaPrincipalController implements Initializable {
         }
         posicionStatusBar.setText("Linea: " + lineNumber + ", Columna: " + columnIndex);
     }
- 
+
+    @FXML
     /**
+     * Método que abre una ventana de informacion sobre el programa
+     */
+    private void abrirAcercaDe(ActionEvent event) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Acerca del Bloc de notas");
+
+            //Establece el titulo de la alerta
+            alert.setHeaderText("Informacion del programa:");
+            //Establece el cuerpo de la alerta
+            alert.setContentText("Programa hecho por Nicolás Calderón Torres.\n"
+                    + "Perteneciente a la Tarea de la Unidad de Trabajo 2.\n"
+                    + "- Elaboración de interfaces mediante documentos xml.\n"
+                    + "Modulo: Desarrollo de Interfaces.");
+            alert.showAndWait();
+    }
+
+    @FXML
+    /**
+     * Metodo que actualiza la linea y columna de la barra de estado al soltar una tecla del teclado
+     */
+    private void actualizarBarraEstado(KeyEvent event) {
+        //actualiza la barra de estado
+        int lineNumber = getLineNumber(areaTexto);
+        int columnIndex = getColumnIndex(areaTexto);
+        //el metodo de contar lineas falla si no hay ningun caracter en la ultima linea añadida, con esto compensamos el fallo
+        if(columnIndex == 1){
+            if(lineNumber!=1){
+               lineNumber++; 
+            } 
+        }
+        posicionStatusBar.setText("Linea: " + lineNumber + ", Columna: " + columnIndex);
+    }
+    
+        /**
      * Metodo que actualiza el titulo de la ventana
      */
     private void actualizarTitulo(){
@@ -306,35 +381,6 @@ public class VistaPrincipalController implements Initializable {
         String text = textArea.getText();
         int lastNewlineIndex = text.lastIndexOf('\n', caretPosition);
         return caretPosition - lastNewlineIndex;
-    }
-
-    @FXML
-    private void abrirAcercaDe(ActionEvent event) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Acerca del Bloc de notas");
-
-            //Establece el titulo de la alerta
-            alert.setHeaderText("Informacion del programa:");
-            //Establece el cuerpo de la alerta
-            alert.setContentText("Programa hecho por Nicolás Calderón Torres.\n"
-                    + "Perteneciente a la Tarea de la Unidad de Trabajo 2.\n"
-                    + "- Elaboración de interfaces mediante documentos xml.\n"
-                    + "Modulo: Desarrollo de Interfaces.");
-            alert.showAndWait();
-    }
-
-    @FXML
-    private void actualizarBarraEstado(KeyEvent event) {
-        //actualiza la barra de estado
-        int lineNumber = getLineNumber(areaTexto);
-        int columnIndex = getColumnIndex(areaTexto);
-        //el metodo de contar lineas falla si no hay ningun caracter en la ultima linea añadida, con esto compensamos el fallo
-        if(columnIndex == 1){
-            if(lineNumber!=1){
-               lineNumber++; 
-            } 
-        }
-        posicionStatusBar.setText("Linea: " + lineNumber + ", Columna: " + columnIndex);
     }
 }
 
